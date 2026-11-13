@@ -5,6 +5,22 @@
 
 ---
 
+## 🌐 Live Deployment
+
+The system is deployed live and publicly accessible:
+
+- 🔗 **Live Demo**: [https://procedure-browse-instruction-euro.trycloudflare.com](https://procedure-browse-instruction-euro.trycloudflare.com)
+- 📊 **Dashboard**: [https://procedure-browse-instruction-euro.trycloudflare.com/dashboard.html](https://procedure-browse-instruction-euro.trycloudflare.com/dashboard.html)
+- 🗺️ **Live Map**: [https://procedure-browse-instruction-euro.trycloudflare.com/map.html](https://procedure-browse-instruction-euro.trycloudflare.com/map.html)
+- 🛣️ **Route Finder**: [https://procedure-browse-instruction-euro.trycloudflare.com/route.html](https://procedure-browse-instruction-euro.trycloudflare.com/route.html)
+- 🚑 **Emergency Corridor**: [https://procedure-browse-instruction-euro.trycloudflare.com/emergency.html](https://procedure-browse-instruction-euro.trycloudflare.com/emergency.html)
+- 🤖 **AI Prediction**: [https://procedure-browse-instruction-euro.trycloudflare.com/prediction.html](https://procedure-browse-instruction-euro.trycloudflare.com/prediction.html)
+- 🔥 **Traffic Heatmap**: [https://procedure-browse-instruction-euro.trycloudflare.com/heatmap.html](https://procedure-browse-instruction-euro.trycloudflare.com/heatmap.html)
+
+**Demo Credentials**: `admin` / `admin123`
+
+---
+
 ## 📖 Overview
 
 In urban centers, traffic congestion, unexpected roadblocks, accidents, and inefficient traffic signal management cause severe transit delays and elevated fuel consumption. 
