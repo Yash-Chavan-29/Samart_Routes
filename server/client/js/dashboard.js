@@ -2,7 +2,7 @@
 // IntelliRoute Dashboard (PS 01 Intelligent Traffic Management)
 // ==========================================
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = (window.location.origin && window.location.origin.startsWith("http")) ? `${window.location.origin}/api` : "http://localhost:5000/api";
 
 // Live Clock
 function updateClock() {

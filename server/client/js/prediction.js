@@ -2,7 +2,7 @@
 // IntelliRoute AI Prediction (PS 01: 15-30 Min Ahead Forecast)
 // ==========================================
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = (window.location.origin && window.location.origin.startsWith("http")) ? `${window.location.origin}/api` : "http://localhost:5000/api";
 
 async function predictTraffic() {
     const roadId = document.getElementById("road").value;

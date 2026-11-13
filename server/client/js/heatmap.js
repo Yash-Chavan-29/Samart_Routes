@@ -2,7 +2,7 @@
 // IntelliRoute Heat Map (PS 01)
 // ==========================================
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = (window.location.origin && window.location.origin.startsWith("http")) ? `${window.location.origin}/api` : "http://localhost:5000/api";
 
 const map = L.map("map").setView([31.2536, 75.7033], 15);
 
