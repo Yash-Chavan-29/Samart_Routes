@@ -9,8 +9,16 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 10000
 });
 
+// Handle pool error events to prevent uncaught exceptions on idle timeouts
+pool.on("error", (err) => {
+  console.warn("⚠️ MySQL Pool Event:", err.message);
+});
+
+// Initial connection check
 pool.getConnection((err, conn) => {
   if (err) {
     console.error("❌ MySQL Connection Failed:", err.message);
@@ -19,5 +27,12 @@ pool.getConnection((err, conn) => {
   console.log("✅ MySQL Connected Successfully via Connection Pool");
   conn.release();
 });
+
+// Keep-alive heartbeat every 60 seconds to prevent idle socket drop
+setInterval(() => {
+  pool.query("SELECT 1", (err) => {
+    if (err) console.warn("MySQL keep-alive ping warning:", err.message);
+  });
+}, 60000);
 
 module.exports = pool;
