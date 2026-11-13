@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const healthRoutes = require("./routes/healthRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -15,15 +16,17 @@ const dfsRoutes = require("./routes/dfsRoutes");
 const astarRoutes = require("./routes/astarRoutes");
 const predictionRoutes = require("./routes/predictionRoutes");
 const emergencyRoutes = require("./routes/emergencyRoutes");
+const incidentRoutes = require("./routes/incidentRoutes");
+const signalRoutes = require("./routes/signalRoutes");
+const routeCompareRoutes = require("./routes/routeCompareRoutes");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send("🚀 IntelliRoute Backend is running successfully!");
-});
+// Serve static frontend files from client directory
+app.use(express.static(path.join(__dirname, "client")));
 
 // =============================
 // API Routes
@@ -43,5 +46,9 @@ app.use("/api/dfs", dfsRoutes);
 app.use("/api/astar", astarRoutes);
 app.use("/api/prediction", predictionRoutes);
 app.use("/api/emergency", emergencyRoutes);
+app.use("/api/incidents", incidentRoutes);
+app.use("/api/signals", signalRoutes);
+app.use("/api/routes", routeCompareRoutes);
+app.use("/api/route-compare", routeCompareRoutes);
 
 module.exports = app;

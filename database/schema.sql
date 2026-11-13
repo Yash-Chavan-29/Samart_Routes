@@ -180,3 +180,21 @@ CREATE TABLE emergency_vehicles (
     REFERENCES vehicles(vehicle_id)
 
 );
+
+-- ==========================================
+-- INCIDENTS (PS 01 Mandatory Feature)
+-- ==========================================
+
+CREATE TABLE IF NOT EXISTS incidents (
+    incident_id INT AUTO_INCREMENT PRIMARY KEY,
+    road_id INT NOT NULL,
+    incident_type ENUM('ACCIDENT', 'ROADBLOCK', 'CONGESTION', 'HAZARD') NOT NULL,
+    severity ENUM('LOW', 'MEDIUM', 'HIGH', 'CRITICAL') DEFAULT 'MEDIUM',
+    description TEXT,
+    reported_by VARCHAR(100) DEFAULT 'Citizen',
+    status ENUM('REPORTED', 'VERIFIED', 'RESOLVED') DEFAULT 'REPORTED',
+    reported_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    latitude DECIMAL(10,7),
+    longitude DECIMAL(10,7),
+    FOREIGN KEY (road_id) REFERENCES roads(road_id) ON DELETE CASCADE
+);

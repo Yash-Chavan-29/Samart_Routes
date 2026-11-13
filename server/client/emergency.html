@@ -2,103 +2,86 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Emergency Vehicle Priority</title>
-
+    <title>Emergency Priority Green Corridor | IntelliRoute</title>
     <link rel="stylesheet" href="css/emergency.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body>
 
-<div class="container">
+<div class="container" style="max-width:700px;">
+    <h1>🚑 Emergency Green Corridor & Signal Preemption</h1>
+    <p style="text-align:center; color:#64748b; margin-top:-15px; margin-bottom:20px;">
+        Rapid dispatch routing for emergency responders with automatic green signal preemption & time saved metrics (PS 01)
+    </p>
 
-    <h1>🚑 Emergency Vehicle Priority</h1>
-
-    <div class="card">
-
-        <label>Select Vehicle</label>
-
+    <div class="card" style="padding:25px;">
+        <label>Select Emergency Vehicle</label>
         <select id="vehicle">
-
-            <option value="AMBULANCE">Ambulance</option>
-
-            <option value="FIRE">Fire Brigade</option>
-
-            <option value="POLICE">Police</option>
-
+            <option value="Ambulance (Code RED)">🚑 Advanced Life Support Ambulance</option>
+            <option value="Fire Brigade (Unit 4)">🚒 Fire Engine / Rescue Truck</option>
+            <option value="Police Escort (PCR)">🚓 Police Emergency Rapid Unit</option>
         </select>
 
-        <label>Source Junction</label>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:15px;">
+            <div>
+                <label>Source Junction</label>
+                <select id="source" style="width:100%;"></select>
+            </div>
+            <div>
+                <label>Destination Hospital / Emergency</label>
+                <select id="destination" style="width:100%;"></select>
+            </div>
+        </div>
 
-        <select id="source"></select>
-
-        <label>Destination Junction</label>
-
-        <select id="destination"></select>
-
-        <button onclick="activateEmergency()">
-
-            Activate Green Corridor
-
+        <button onclick="activateEmergency()" style="margin-top:20px; width:100%; padding:14px; background:#ef4444; color:white; font-weight:700; border:none; border-radius:8px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; gap:8px;">
+            <i class="fa-solid fa-truck-medical"></i> Activate Emergency Green Corridor
         </button>
-
     </div>
 
-    <div class="result">
-
-    <h2>Emergency Response</h2>
-
-    <div class="result-card">
-
-        <div class="result-item">
-
-            <span>🚑 Vehicle</span>
-
-            <h3 id="vehicleName">--</h3>
-
+    <div class="result" style="margin-top:25px;">
+        <h2>Emergency Mission Telemetry</h2>
+        <div class="result-card" style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+            <div class="result-item">
+                <span>Vehicle In Transit</span>
+                <h3 id="vehicleName">--</h3>
+            </div>
+            <div class="result-item">
+                <span>Green Corridor Path</span>
+                <h3 id="routePath" style="font-size:15px; color:#10b981;">--</h3>
+            </div>
+            <div class="result-item">
+                <span>Total Distance</span>
+                <h3 id="distance">--</h3>
+            </div>
+            <div class="result-item">
+                <span>Priority Preemption Mode</span>
+                <h3 id="statusBadge" style="color:#10b981; font-weight:700;">Waiting for activation...</h3>
+            </div>
+            <div class="result-item" style="background:#f0fdf4; border:1px solid #bbf7d0;">
+                <span>Priority Emergency ETA</span>
+                <h3 id="emergencyEta" style="color:#15803d;">--</h3>
+            </div>
+            <div class="result-item" style="background:#fef2f2; border:1px solid #fecaca;">
+                <span>Normal Route ETA (Civilian)</span>
+                <h3 id="normalEta" style="color:#b91c1c;">--</h3>
+            </div>
         </div>
 
-        <div class="result-item">
-
-            <span>🛣 Route</span>
-
-            <h3 id="routePath">--</h3>
-
+        <!-- Time Saved Metric Banner -->
+        <div id="savingsBanner" style="display:none; margin-top:15px; padding:15px; background:#dcfce7; border:1px solid #86efac; border-radius:8px; text-align:center;">
+            <h3 id="savingsTitle" style="color:#166534; margin:0 0 4px; font-size:18px;"></h3>
+            <p id="savingsDesc" style="color:#15803d; margin:0; font-size:14px;"></p>
         </div>
-
-        <div class="result-item">
-
-            <span>📏 Distance</span>
-
-            <h3 id="distance">--</h3>
-
-        </div>
-
-        <div class="result-item">
-
-            <span>🚦 Corridor Status</span>
-
-            <h3 id="statusBadge" class="active">
-
-                Waiting...
-
-            </h3>
-
-        </div>
-
     </div>
 
-</div>
-
+    <div style="margin-top:20px; text-align:center;">
+        <a href="dashboard.html" style="color:#2563eb; text-decoration:none; font-weight:600;">⬅ Back to Dashboard</a>
+    </div>
 </div>
 
 <script src="js/emergency.js"></script>
-
 </body>
-
 </html>

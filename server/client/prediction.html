@@ -2,170 +2,99 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-    <title>AI Traffic Prediction</title>
-
-    <link rel="stylesheet"
-        href="css/prediction.css">
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Traffic Prediction (15–30 Min Forecast) | IntelliRoute</title>
+    <link rel="stylesheet" href="css/prediction.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body>
 
-<div class="container">
-
-    <div class="card">
-
-        <h1>
-
-            <i class="fa-solid fa-brain"></i>
-
-            AI Traffic Prediction
-
+<div class="container" style="max-width:650px;">
+    <div class="card" style="padding:30px;">
+        <h1 style="display:flex; align-items:center; gap:10px;">
+            <i class="fa-solid fa-brain" style="color:#2563eb;"></i>
+            AI Traffic Congestion Prediction
         </h1>
-
-        <p>
-
-            Predict future traffic using IntelliRoute AI Engine
-
+        <p style="color:#64748b; margin-bottom:20px;">
+            15–30 min ahead predictive congestion engine factoring historical logs, peak hours, weather & incidents (PS 01)
         </p>
 
-        <!-- ========================= -->
-        <!-- Road Selection -->
-        <!-- ========================= -->
-
-        <div class="form-group">
-
-            <label>
-
-                Select Road
-
-            </label>
-
-            <select id="road">
-
-                <option value="1">
-                    LPU Smart Road
-                </option>
-
-                <option value="2">
-                    University Main Road
-                </option>
-
-                <option value="3">
-                    Central Avenue
-                </option>
-
-                <option value="4">
-                    City Bypass Road
-                </option>
-
-                <option value="5">
-                    Green Valley Road
-                </option>
-
-            </select>
-
+        <!-- Road & Weather Controls -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
+            <div class="form-group">
+                <label style="font-weight:600; font-size:13px; display:block; margin-bottom:5px;">Select Road</label>
+                <select id="road" style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1;">
+                    <option value="1">Road #1: LPU Road</option>
+                    <option value="2">Road #2: Bus Route</option>
+                    <option value="3">Road #3: Station Road</option>
+                    <option value="4">Road #4: Hospital Road</option>
+                    <option value="5">Road #5: Emergency Route</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label style="font-weight:600; font-size:13px; display:block; margin-bottom:5px;">Simulated Weather</label>
+                <select id="weather" style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1;" onchange="predictTraffic()">
+                    <option value="CLEAR">☀️ Clear (1.0x)</option>
+                    <option value="OVERCAST">☁️ Overcast (1.1x)</option>
+                    <option value="RAIN">🌧️ Heavy Rain (1.45x)</option>
+                    <option value="STORM">⛈️ Severe Storm (1.8x)</option>
+                </select>
+            </div>
         </div>
 
-        <!-- ========================= -->
-        <!-- Predict Button -->
-        <!-- ========================= -->
-
-        <button onclick="predictTraffic()">
-
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-
-            Predict Traffic
-
+        <button onclick="predictTraffic()" style="width:100%; padding:12px; background:#2563eb; color:white; border:none; border-radius:8px; font-weight:700; cursor:pointer; font-size:15px; display:flex; align-items:center; justify-content:center; gap:8px;">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Run AI Prediction
         </button>
 
-        <!-- ========================= -->
         <!-- Prediction Result -->
-        <!-- ========================= -->
-
-        <div class="result">
-
-            <h2>
-
-                Prediction Result
-
-            </h2>
-
+        <div class="result" style="margin-top:25px;">
+            <h2 style="font-size:18px; margin-bottom:12px;">Predictive Analysis Result</h2>
             <table>
-
                 <tr>
-
-                    <td>Road</td>
-
-                    <td id="roadName">-</td>
-
+                    <td>Target Road</td>
+                    <td><strong id="roadName">-</strong></td>
                 </tr>
-
                 <tr>
-
                     <td>Current Traffic</td>
-
-                    <td id="currentTraffic">-</td>
-
+                    <td><span id="currentTraffic" style="font-weight:700;">-</span></td>
                 </tr>
-
                 <tr>
-
-                    <td>Prediction</td>
-
-                    <td id="prediction">-</td>
-
+                    <td>Time & Peak Status</td>
+                    <td id="timeStatus">-</td>
                 </tr>
-
                 <tr>
-
-                    <td>Confidence</td>
-
-                    <td id="confidence">-</td>
-
+                    <td>Active Incidents on Road</td>
+                    <td id="activeIncidents">-</td>
                 </tr>
-
                 <tr>
-
-                    <td>Next Update</td>
-
-                    <td id="after">-</td>
-
+                    <td>Forecast (15 Mins Ahead)</td>
+                    <td><strong id="forecast15">-</strong></td>
                 </tr>
-
+                <tr>
+                    <td>Forecast (30 Mins Ahead)</td>
+                    <td><strong id="forecast30">-</strong></td>
+                </tr>
+                <tr>
+                    <td>AI Model Confidence</td>
+                    <td><strong id="confidence">-</strong></td>
+                </tr>
             </table>
 
+            <!-- Preemptive Alternate Route Banner -->
+            <div id="preemptiveBox" style="margin-top:15px; padding:14px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px;">
+                <h4 style="color:#1e40af; margin-bottom:4px;"><i class="fa-solid fa-route"></i> Preemptive Route Guidance</h4>
+                <p id="preemptiveText" style="color:#1e3a8a; font-size:13.5px; margin:0;"></p>
+            </div>
         </div>
 
-        <!-- ========================= -->
-        <!-- Back Button -->
-        <!-- ========================= -->
-
-        <div class="back">
-
-            <a href="dashboard.html">
-
-                ⬅ Back to Dashboard
-
-            </a>
-
+        <div class="back" style="margin-top:20px; text-align:center;">
+            <a href="dashboard.html" style="color:#2563eb; text-decoration:none; font-weight:600;">⬅ Back to Dashboard</a>
         </div>
-
     </div>
-
 </div>
 
 <script src="js/prediction.js"></script>
-
 </body>
-
 </html>

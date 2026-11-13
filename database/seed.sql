@@ -118,3 +118,13 @@ VALUES
 (1,1,'Ambulance','Active'),
 
 (2,2,'Police','Active');
+
+-- ===========================
+-- INCIDENTS (PS 01)
+-- ===========================
+
+INSERT INTO incidents
+(road_id, incident_type, severity, description, status, latitude, longitude)
+VALUES
+(3, 'ACCIDENT', 'HIGH', 'Two-wheeler collision causing lane blockage near Station Road', 'VERIFIED', 31.2480, 75.7800),
+(1, 'CONGESTION', 'MEDIUM', 'Heavy peak hour vehicle queue entering University Gate', 'REPORTED', 31.2536, 75.7033);

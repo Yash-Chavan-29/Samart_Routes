@@ -214,21 +214,61 @@
 
         </section>
 
-        <!-- Junction Signals -->
+        <!-- Junction Signals (PS 01: Adaptive Traffic Signal Optimization) -->
 
         <section class="signals-section">
 
-            <h2>Live Junction Signals</h2>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h2>🚦 Live Adaptive Junction Signals</h2>
+                <span style="font-size:13px; color:#64748b; background:#e2e8f0; padding:4px 10px; border-radius:12px;">Dynamic Queue & Density Control</span>
+            </div>
 
-            <div id="signals"></div>
+            <div id="signals" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:15px;"></div>
+
+            <div id="signalOptBanner" style="display:none; margin-top:15px; padding:12px 18px; border-radius:10px; background:#f0fdf4; border:1px solid #bbf7d0; color:#166534; font-size:14px;">
+            </div>
+
+        </section>
+
+        <!-- Incidents & Admin Dashboard (PS 01 Mandatory Feature) -->
+
+        <section class="table-section" style="margin-top:25px;">
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <div>
+                    <h2>🚨 Reported Incidents & Admin Management</h2>
+                    <p style="font-size:13px; color:#64748b;">Accidents, Roadblocks, Congestion & Duplicate Detection</p>
+                </div>
+                <button onclick="openIncidentModal()" style="background:#2563eb; color:white; border:none; padding:10px 18px; border-radius:8px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:8px;">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Report Incident
+                </button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Road</th>
+                        <th>Type</th>
+                        <th>Severity</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                        <th>Reported At</th>
+                        <th>Admin Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="incidentsTable">
+                    <tr><td colspan="8" style="text-align:center;">Loading incidents...</td></tr>
+                </tbody>
+            </table>
 
         </section>
 
         <!-- Table -->
 
-        <section class="table-section">
+        <section class="table-section" style="margin-top:25px;">
 
-            <h2>Road Details</h2>
+            <h2>Road Details & Network Graph Links</h2>
 
             <table>
 
@@ -238,8 +278,9 @@
 
                         <th>ID</th>
                         <th>Road Name</th>
-                        <th>Traffic</th>
+                        <th>Traffic Level</th>
                         <th>Status</th>
+                        <th>Impact Simulation</th>
 
                     </tr>
 
@@ -253,6 +294,56 @@
 
         </section>
 
+    </div>
+
+    <!-- Modal: Report Incident -->
+    <div id="incidentModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; display:none; align-items:center; justify-content:center;">
+        <div style="background:white; border-radius:12px; width:480px; max-width:90%; padding:25px; box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 style="color:#0f172a;"><i class="fa-solid fa-triangle-exclamation" style="color:#ef4444;"></i> Report Road Incident</h3>
+                <span onclick="closeIncidentModal()" style="cursor:pointer; font-size:20px; color:#64748b;">&times;</span>
+            </div>
+            <form id="incidentForm" onsubmit="submitIncident(event)">
+                <div style="margin-bottom:12px;">
+                    <label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;">Affected Road</label>
+                    <select id="modalRoadSelect" style="width:100%; padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px;" required></select>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;">Incident Type</label>
+                    <select id="modalIncidentType" style="width:100%; padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px;" required>
+                        <option value="ACCIDENT">Accident / Collision</option>
+                        <option value="ROADBLOCK">Roadblock / Construction</option>
+                        <option value="CONGESTION">Traffic Jam / High Congestion</option>
+                        <option value="HAZARD">Hazard / Road Damage</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;">Description</label>
+                    <textarea id="modalDescription" rows="3" placeholder="Provide details (e.g. 2-car collision blocking northbound lane)..." style="width:100%; padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px; font-family:inherit;"></textarea>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label style="display:block; font-size:13px; font-weight:600; margin-bottom:4px;">Reporter Name</label>
+                    <input type="text" id="modalReporter" placeholder="Citizen / Traffic Sensor" style="width:100%; padding:8px 12px; border:1px solid #cbd5e1; border-radius:6px;" />
+                </div>
+                <div style="display:flex; justify-content:flex-end; gap:10px;">
+                    <button type="button" onclick="closeIncidentModal()" style="padding:8px 16px; border:1px solid #cbd5e1; background:#f8fafc; border-radius:6px; cursor:pointer;">Cancel</button>
+                    <button type="submit" style="padding:8px 18px; border:none; background:#ef4444; color:white; font-weight:600; border-radius:6px; cursor:pointer;">Submit Report</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Network Impact Analysis -->
+    <div id="impactModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; display:none; align-items:center; justify-content:center;">
+        <div style="background:white; border-radius:12px; width:560px; max-width:92%; padding:25px; box-shadow:0 10px 30px rgba(0,0,0,0.3); max-height:85vh; overflow-y:auto;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 style="color:#0f172a;"><i class="fa-solid fa-diagram-project" style="color:#2563eb;"></i> Network Impact & Diversion Analysis</h3>
+                <span onclick="closeImpactModal()" style="cursor:pointer; font-size:20px; color:#64748b;">&times;</span>
+            </div>
+            <div id="impactModalBody">
+                Loading impact analysis...
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
